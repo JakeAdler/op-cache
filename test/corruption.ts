@@ -1,5 +1,6 @@
 import PCache from "../src/p-cache";
-import test, { afterEach, before } from "ava";
+import test, { before, after } from "ava";
+import mock, { restore } from "mock-fs";
 import node_path from "path";
 import fs from "fs";
 
@@ -9,20 +10,16 @@ const path = node_path.join(dir, "cache.json");
 const readCacheFile = () => fs.readFileSync(path, "utf8");
 
 before(() => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    } else if (fs.existsSync(path)) {
-        fs.rmSync(path);
-    }
+    mock({
+        [path]: "",
+    });
 });
 
-afterEach(() => {
-    if (fs.existsSync(path)) {
-        fs.rmSync(path);
-    }
+after(() => {
+    restore();
 });
 
-test.serial("Cache restored on corruption", (t) => {
+test("Cache restored on corruption", (t) => {
     const cache = new PCache({
         path,
     });
@@ -36,7 +33,7 @@ test.serial("Cache restored on corruption", (t) => {
     t.deepEqual(JSON.stringify([...cache]), readCacheFile());
 });
 
-test.serial("Throws on corruption", (t) => {
+test("Throws on corruption", (t) => {
     const cache = new PCache({
         path,
         throwOnCorruption: true,

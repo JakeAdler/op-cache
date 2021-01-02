@@ -23,3 +23,32 @@ test("Bound properties should work as expected", (t) => {
     t.is(cache.size, map.size);
 });
 
+test("Base properties work as expected", (t) => {
+    const x = Symbol("foo");
+    const y = Symbol("foo");
+
+    type Schema = {
+        hello: "world";
+        [x]: "bax";
+        [y]: "bay";
+        1: any;
+    };
+    const cache = new PCache<Schema>();
+
+    cache.set("hello", "world");
+
+    cache.set(x, "bax");
+
+    cache.set(y, "bay");
+
+    cache.set(1, {
+        one: "I",
+    });
+
+    t.is(cache.get("hello"), "world");
+
+    t.is(cache.get(x), "bax");
+    t.is(cache.get(y), "bay");
+
+    t.deepEqual(cache.get(1), { one: "I" });
+});

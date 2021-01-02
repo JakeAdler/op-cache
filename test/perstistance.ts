@@ -1,49 +1,44 @@
 import PCache from "../src/p-cache";
 import test, { after, before } from "ava";
-import path from "path";
+import mock, { restore } from "mock-fs";
+import node_path from "path";
 import fs from "fs";
 
-const cacheDir = path.join(process.cwd(), "node_modules/", ".cache/");
-const cachePath = path.join(cacheDir, "cache.json");
+const dir = node_path.join(process.cwd(), "node_modules/", ".cache/");
+const path = node_path.join(dir, "cache.json");
 
-const readCacheFile = () => fs.readFileSync(cachePath, "utf8");
+const readCacheFile = () => fs.readFileSync(path, "utf8");
 
 before(() => {
-    if (!fs.existsSync(cacheDir)) {
-        fs.mkdirSync(cacheDir);
-    } else if (fs.existsSync(cachePath)) {
-        fs.rmSync(cachePath);
-    }
+    mock({
+        [path]: "",
+    });
 });
 
 after(() => {
-    if (fs.existsSync(cachePath)) {
-        fs.rmSync(cachePath);
-    }
+    restore();
 });
 
-test.serial("Should persist data", (t) => {
-    const cache = new PCache({
-        cachePath,
+test("Should load persisted data", (t) => {
+    const oldCache = new PCache({
+        path,
     });
 
-    cache.set("foo", "bar", true);
+    oldCache.set("foo", "bar", true);
 
     t.deepEqual(readCacheFile(), JSON.stringify([["foo", "bar"]]));
-});
 
-test.serial("Should load persist data", (t) => {
-    const cache = new PCache({
-        cachePath,
+    const newCache = new PCache({
+        path,
     });
 
-    t.assert(cache.has("foo"));
-    t.is(cache.get("foo"), "bar");
+    t.assert(newCache.has("foo"));
+    t.is(newCache.get("foo"), "bar");
 });
 
-test.serial("Should delete persisted data", (t) => {
+test("Should delete persisted data", (t) => {
     const cache = new PCache({
-        cachePath,
+        path,
     });
 
     t.assert(cache.has("foo"));
