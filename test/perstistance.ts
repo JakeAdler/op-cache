@@ -1,4 +1,4 @@
-import PCache from "../src/p-cache";
+import MCache from "../src/m-cache";
 import test, { after, before } from "ava";
 import mock, { restore } from "mock-fs";
 import node_path from "path";
@@ -20,7 +20,7 @@ after(() => {
 });
 
 test("Should load persisted data", (t) => {
-    const oldCache = new PCache({
+    const oldCache = new MCache({
         path,
     });
 
@@ -28,7 +28,7 @@ test("Should load persisted data", (t) => {
 
     t.deepEqual(readCacheFile(), JSON.stringify([["foo", "bar"]]));
 
-    const newCache = new PCache({
+    const newCache = new MCache({
         path,
     });
 
@@ -37,7 +37,7 @@ test("Should load persisted data", (t) => {
 });
 
 test("Should delete persisted data", (t) => {
-    const cache = new PCache({
+    const cache = new MCache({
         path,
     });
 
@@ -48,4 +48,21 @@ test("Should delete persisted data", (t) => {
     t.assert(!cache.has("foo"));
 
     t.deepEqual(readCacheFile(), "[]");
+});
+
+test("Chainable set calls with some pairs persisted", (t) => {
+    const cache = new MCache({
+        path,
+    });
+    cache.clear(true);
+
+    cache.set("foo", "bar", true).set("dont", "save").set("save", "me", true);
+
+    t.deepEqual(
+        readCacheFile(),
+        JSON.stringify([
+            ["foo", "bar"],
+            ["save", "me"],
+        ])
+    );
 });

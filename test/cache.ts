@@ -1,8 +1,26 @@
-import PCache from "../src/p-cache";
-import test from "ava";
+import mock, { restore } from "mock-fs";
+import MCache from "../src/m-cache";
+import test, { before, after } from "ava";
+import node_path from "path";
+import fs from "fs";
+
+const dir = node_path.join(process.cwd(), "node_modules/", ".cache/");
+const path = node_path.join(dir, "cache.json");
+
+const readCacheFile = () => fs.readFileSync(path, "utf8");
+
+before(() => {
+    mock({
+        [path]: "",
+    });
+});
+
+after(() => {
+    restore();
+});
 
 test("Bound properties should work as expected", (t) => {
-    const cache = new PCache();
+    const cache = new MCache();
     const map = new Map();
 
     cache.set("foo", { bar: "baz" }).set(1, 2);
@@ -33,7 +51,7 @@ test("Base properties work as expected", (t) => {
         [y]: "bay";
         1: any;
     };
-    const cache = new PCache<Schema>();
+    const cache = new MCache<Schema>();
 
     cache.set("hello", "world");
 
@@ -51,4 +69,23 @@ test("Base properties work as expected", (t) => {
     t.is(cache.get(y), "bay");
 
     t.deepEqual(cache.get(1), { one: "I" });
+});
+
+test("'set' calls should be chainable", (t) => {
+    const cache = new MCache({
+    	path
+    });
+
+    cache
+        .set("foo", "bar")
+        .set("baz", "bop", true)
+        .set("should be", "saved", true);
+
+    t.deepEqual(
+        readCacheFile(),
+        JSON.stringify([
+            ["baz", "bop"],
+            ["should be", "saved"],
+        ])
+    );
 });

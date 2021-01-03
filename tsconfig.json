@@ -9,5 +9,5 @@
         "downlevelIteration": true,
         "forceConsistentCasingInFileNames": true
     },
-    "files": ["./src/p-cache.ts"]
+    "files": ["./src/m-cache.ts"]
 }

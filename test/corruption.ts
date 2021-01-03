@@ -1,4 +1,4 @@
-import PCache from "../src/p-cache";
+import MCache from "../src/m-cache";
 import test, { before, after } from "ava";
 import mock, { restore } from "mock-fs";
 import node_path from "path";
@@ -20,21 +20,21 @@ after(() => {
 });
 
 test("Cache restored on corruption", (t) => {
-    const cache = new PCache({
+    const cache = new MCache({
         path,
     });
 
     cache.set("foo", "bar", true);
 
-    fs.writeFileSync(path, "[{'foo': 'bar'}]");
+    fs.writeFileSync(path, "[{'boo': 'far'}]");
 
-    cache.set("baz", "bop", true);
+    cache.persist()
 
-    t.deepEqual(JSON.stringify([...cache]), readCacheFile());
+    t.deepEqual(JSON.stringify([["foo", "bar"]]), readCacheFile());
 });
 
 test("Throws on corruption", (t) => {
-    const cache = new PCache({
+    const cache = new MCache({
         path,
         throwOnCorruption: true,
     });
@@ -44,7 +44,7 @@ test("Throws on corruption", (t) => {
     fs.writeFileSync(path, '[{"foo": "bar"}]');
 
     t.throws(() => {
-        new PCache({
+        new MCache({
             path,
             throwOnCorruption: true,
         });

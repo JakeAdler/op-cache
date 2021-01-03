@@ -1,4 +1,4 @@
-# p-cache
+# m-cache
 A simple [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) based cache with optional persistence.
 
 - [Usage](#Usage)
@@ -8,10 +8,10 @@ A simple [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 ## Usage
 
 ```js
-const PCache = require("p-cache");
+const MCache = require("m-cache");
 
 // If it does not exist, creates /path/to/cache/file
-const cache = new PCache({
+const cache = new MCache({
   path: "/path/to/cache/file"
 })
 
@@ -30,7 +30,7 @@ cache.delete("hello");
 cache.has("hello"); // false
 
 // Since 'path' exists, newCache will be loaded with the data inside the cache file.
-const newCache = new PCache({
+const newCache = new MCache({
   path: "/path/to/cache/file"
 )}
 
@@ -91,13 +91,13 @@ Example:
 ```js
 // GOOD
 
-const cache = new PCache({
+const cache = new MCache({
   path: "/path/to/cache/file"
 });
 
 cache.set("foo", { bar: "baz" }, true);
 
-const newCache = new PCache({
+const newCache = new MCache({
   path: "/path/to/cache/file"
 });
 
@@ -115,7 +115,7 @@ cache.set("sum", (a, b) => (a + b), true);
 const sum = cache.get("sum");
 sum(1, 2) // 3;
 
-const newCache = new PCache({
+const newCache = new MCache({
   path: "/path/to/cache/file"
 });
 
@@ -125,13 +125,13 @@ newCache.get("sum"); // undefined
 Example:
 
 ```js
-const cache = new PCache({
+const cache = new MCache({
   path: "/path/to/cache/file"
 });
 
 cache.set({ someKey: "someVal" }, "YAY", true);
 
-const newCache =  newPCache({
+const newCache =  new MCache({
   path: "/path/to/cache/file"
 });
 

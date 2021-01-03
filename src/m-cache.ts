@@ -41,7 +41,7 @@ class PCache<Schema = any> implements Map<keyof Schema, Schema[keyof Schema]> {
 
     private processOptions = (options: Options): Options => {
         if (options && options.path) {
-            options.path = this.resolvePath(options.path)
+            options.path = this.resolvePath(options.path);
             if (!fs.existsSync(options.path)) {
                 fs.writeFileSync(options.path, "[]");
             }
@@ -115,7 +115,7 @@ class PCache<Schema = any> implements Map<keyof Schema, Schema[keyof Schema]> {
 
     private readFile = (path?: string): TupleArr<Schema> => {
         if (path) {
-            path = this.resolvePath(path)
+            path = this.resolvePath(path);
         } else if (this.options.path) {
             const { path: cachePath } = this.options;
             try {
