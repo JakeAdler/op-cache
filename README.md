@@ -1,5 +1,5 @@
 # p-cache
-A simple [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) based cache with optional persistance.
+A simple [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) based cache with optional persistence.
 
 - [Usage](#Usage)
 - [API](#API)
@@ -36,7 +36,7 @@ const newCache = new PCache({
 
 newCache.has("hello"); // true
 
-newCache.clear(true); // Clear cache with persistance (deletes cache file);
+newCache.clear(true); // Clear cache with persistence (deletes cache file);
 
 const key1 = Symbol("foo");
 const key2 = Symbol("foo");
