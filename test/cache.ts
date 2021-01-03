@@ -1,5 +1,5 @@
 import mock, { restore } from "mock-fs";
-import MCache from "../src/m-cache";
+import OPCache from "../src/op-cache";
 import test, { before, after } from "ava";
 import node_path from "path";
 import fs from "fs";
@@ -20,7 +20,7 @@ after(() => {
 });
 
 test("Bound properties should work as expected", (t) => {
-    const cache = new MCache();
+    const cache = new OPCache();
     const map = new Map();
 
     cache.set("foo", { bar: "baz" }).set(1, 2);
@@ -51,7 +51,7 @@ test("Base properties work as expected", (t) => {
         [y]: "bay";
         1: any;
     };
-    const cache = new MCache<Schema>();
+    const cache = new OPCache<Schema>();
 
     cache.set("hello", "world");
 
@@ -72,7 +72,7 @@ test("Base properties work as expected", (t) => {
 });
 
 test("'set' calls should be chainable", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
     	path
     });
 

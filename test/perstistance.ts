@@ -1,4 +1,4 @@
-import MCache from "../src/m-cache";
+import OPCache from "../src/op-cache";
 import test, { after, before } from "ava";
 import mock, { restore } from "mock-fs";
 import node_path from "path";
@@ -20,7 +20,7 @@ after(() => {
 });
 
 test("Should load persisted data", (t) => {
-    const oldCache = new MCache({
+    const oldCache = new OPCache({
         path,
     });
 
@@ -28,7 +28,7 @@ test("Should load persisted data", (t) => {
 
     t.deepEqual(readCacheFile(), JSON.stringify([["foo", "bar"]]));
 
-    const newCache = new MCache({
+    const newCache = new OPCache({
         path,
     });
 
@@ -37,7 +37,7 @@ test("Should load persisted data", (t) => {
 });
 
 test("Should delete persisted data", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
         path,
     });
 
@@ -51,7 +51,7 @@ test("Should delete persisted data", (t) => {
 });
 
 test("Chainable set calls with some pairs persisted", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
         path,
     });
     cache.clear(true);

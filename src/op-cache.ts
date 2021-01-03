@@ -11,7 +11,7 @@ interface Options {
 
 type Store<T> = Map<keyof T, T[keyof T]>;
 
-class PCache<Schema = any> implements Map<keyof Schema, Schema[keyof Schema]> {
+class OPCache<Schema = any> implements Map<keyof Schema, Schema[keyof Schema]> {
     private options: Options;
     private map: Map<keyof Schema, Schema[keyof Schema]>;
     private persistantMap: Map<keyof Schema, Schema[keyof Schema]>;
@@ -217,4 +217,4 @@ class PCache<Schema = any> implements Map<keyof Schema, Schema[keyof Schema]> {
     };
 }
 
-export default PCache;
+export default OPCache;

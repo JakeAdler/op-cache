@@ -1,5 +1,5 @@
 {
-    "name": "m-cache",
+    "name": "op-cache",
     "version": "1.0.0",
     "description": "A simple, Map based cache with optional persistence",
     "author": {

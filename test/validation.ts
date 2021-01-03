@@ -1,7 +1,7 @@
 import test, { before, after } from "ava";
 import node_path from "path";
 import mock, { restore } from "mock-fs";
-import MCache from "../src/m-cache";
+import OPCache from "../src/op-cache";
 
 const dir = node_path.join(process.cwd(), "node_modules/", ".cache/");
 const path = node_path.join(dir, "cache.json");
@@ -17,14 +17,14 @@ after(() => {
 });
 
 test("Should throw if persisted data fails validation", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
         path,
     });
 
     cache.set("foo", "bar", true);
 
     t.throws(() => {
-        new MCache({
+        new OPCache({
             path,
             validate: (fc: any) => {
                 if (!Array.isArray(fc)) {
@@ -46,14 +46,14 @@ test("Should throw if persisted data fails validation", (t) => {
 });
 
 test("Should pass if persisted data passes validation", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
         path,
     });
 
     cache.set("foo", "bar", true);
 
     t.notThrows(() => {
-        new MCache({
+        new OPCache({
             path,
             validate: (fc: any) => {
                 if (!Array.isArray(fc)) {

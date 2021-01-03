@@ -1,4 +1,4 @@
-import MCache from "../src/m-cache";
+import OPCache from "../src/op-cache";
 import test, { before, after } from "ava";
 import mock, { restore } from "mock-fs";
 import node_path from "path";
@@ -20,7 +20,7 @@ after(() => {
 });
 
 test("Cache restored on corruption", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
         path,
     });
 
@@ -34,7 +34,7 @@ test("Cache restored on corruption", (t) => {
 });
 
 test("Throws on corruption", (t) => {
-    const cache = new MCache({
+    const cache = new OPCache({
         path,
         throwOnCorruption: true,
     });
@@ -44,7 +44,7 @@ test("Throws on corruption", (t) => {
     fs.writeFileSync(path, '[{"foo": "bar"}]');
 
     t.throws(() => {
-        new MCache({
+        new OPCache({
             path,
             throwOnCorruption: true,
         });
