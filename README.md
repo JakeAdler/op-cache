@@ -2,6 +2,10 @@
 
 A simple [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) based cache with optional persistence.
 
+```console
+npm i op-cache
+```
+
 -   [Usage](#Usage)
 -   [API](#API)
 -   [Caveats](#Caveats)
