@@ -6,8 +6,8 @@
         "name": "Jake Adler",
         "url": "https://jakeadler.xyz"
     },
-    "main": "dist/m-cache.js",
-    "types": "dist/m-cache.d.ts",
+    "main": "dist/op-cache.js",
+    "types": "dist/op-cache.d.ts",
     "scripts": {
         "test": "ava"
     },
